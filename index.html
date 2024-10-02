@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday</title>
+  <!-- Favicon -->
+  <link rel="icon" href="RegLogo.jpg" type="image/x-icon">
+  <!-- Google Fonts - Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <!-- Lightbox2 CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* Apply Montserrat font to the whole body */
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('ban.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Add shadow */
+      /* You can adjust the values below to change shadow appearance */
+      /* The values are: horizontal offset, vertical offset, blur radius, spread radius, color */
+    }
+
+
+    /* Transparent Navbar */
+    .navbar {
+      background-color: transparent !important;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      font-weight: bold;
+    }
+
+    .navbar .nav-link {
+      color: white !important;
+      font-weight: bold;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #000;
+      color: #ffffff;
+    }
+
+    /* Dark Mode Navbar */
+    body.dark-mode .navbar .nav-link {
+      color: #ffffff !important; /* Visible text color for dark mode */
+    }
+
+    body.dark-mode .navbar-brand {
+      color: #ffffff !important; /* Navbar brand color */
+    }
+
+    /* Hero Section Dark/Light Mode Text */
+    body.dark-mode .hero h1,
+    body.dark-mode .hero h2 {
+      color: #ffffff;
+    }
+
+    .hero h1,
+    .hero h2 {
+      color: #fff; /* Default for light mode */
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #004969;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    footer a:hover {
+      border-color: white;
+    }
+
+    /* Dark Mode Footer */
+    body.dark-mode footer {
+      background-color: #333;
+    }
+
+    /* Gallery */
+    .gallery img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+/* Basic styles for the modern gift box */
+.gift-box {
+            width: 250px;
+            height: 200px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 100px auto;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .gift-box.locked {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+
+        /* Hidden message inside the gift box */
+        .gift-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: none;
+            margin-top: 12px;
+        }
+
+        /* Decorative new ribbon */
+        .ribbon {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background-color: #3498db;
+            top: 50px;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .ribbon::before, .ribbon::after {
+            content: "";
+            position: absolute;
+            border-style: solid;
+            border-width: 0 15px 15px 0;
+            border-color: transparent transparent transparent #3498db;
+            top: -15px;
+        }
+        .ribbon::after {
+            left: auto;
+            right: 0;
+            border-color: transparent transparent transparent #3498db;
+        }
+
+        /* Ribbon disappears when clicked */
+        .ribbon.hidden {
+            display: none;
+        }
+
+        .playlist {
+            max-width: 600px;
+            margin: 20px auto;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .playlist li {
+            background: #3498db;
+            margin: 10px 0;
+            padding: 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .playlist li:hover {
+            background: #2980b9;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .controls button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #2980b9;
+        }
+
+        .playing {
+            background-color: #27ae60 !important;
+        }
+  </style>
+</head>
+<body class="dark-mode"> <!-- Default dark mode applied here -->
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="RegLogo.jpg" height="50" width="50" alt="Regina's Logo"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#hero">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#memories">Memories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="gallery.html">Gallery</a>
+          </li>
+        </ul>
+        <!-- Dark/Light Mode Toggle Button with Icons -->
+        <button class="btn btn-secondary ms-3" id="modeToggle">
+          <i id="modeIcon" class="fas fa-sun"></i> <!-- Default icon for dark mode -->
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero" data-aos="fade-up">
+    <div>
+      <h1>Happy Birthday, Regina</h1>
+      <h2>Wishing you a day filled with love and happiness!</h2>
+    </div>
+  </section>
+
+  <!-- song
+  <section id="playlist" class="container my-5">
+    <h3 class="text-center mb-4" data-aos="fade-up">Birthday Playlist</h3>
+    <audio id="audioPlayer" autoplay>
+        <source id="audioSource" src="songs/frank.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+    <div class="text-center">
+        <button id="playButton" class="btn btn-primary">Pause</button>
+        <button id="muteButton" class="btn btn-secondary">Mute</button>
+    </div>
+  </section> -->
+
+
+
+ <!-- Photo Gallery -->
+<section id="memories" class="container my-5">
+  <h3 class="text-center mb-4" data-aos="fade-up">Memories</h3>
+  <div class="row gallery">
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img1.jpg" data-lightbox="memories" data-title="Memory 1">
+        <img src="img4.jpg" alt="Memory 1">
+      </a>
+    </div>
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img2.jpg" data-lightbox="memories" data-title="Memory 2">
+        <img src="img2.jpg" alt="Memory 2">
+      </a>
+    </div>
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img3.jpg" data-lightbox="memories" data-title="Memory 3">
+        <img src="img3.jpg" alt="Memory 3">
+      </a>
+    </div>
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img4.jpg" data-lightbox="memories" data-title="Memory 4">
+        <img src="img4.jpg" alt="Memory 4">
+      </a>
+    </div>
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img5.jpg" data-lightbox="memories" data-title="Memory 5">
+        <img src="img5.jpg" alt="Memory 5">
+      </a>
+    </div>
+    <div class="col-md-2 mb-4" data-aos="fade-up">
+      <a href="img6.jpg" data-lightbox="memories" data-title="Memory 6">
+        <img src="img6.jpg" alt="Memory 6">
+      </a>
+    </div>
+  </div>
+  <div class="text-center">
+    <a href="gallery.html" class="btn btn-primary mt-3" data-aos="fade-up">View Full Gallery</a>
+  </div>
+</section>
+
+<!-- Message Section -->
+<section class="container mt-5 my-5 text-center">
+  <h2 class="mb-4" data-aos="fade-up">A Special Message for You</h2>
+  <p class="lead" data-aos="fade-up" data-aos-delay="100">
+    Regina, you light up my world in so many ways. Thank you for being you. Wishing you endless happiness today and always!
+  </p>
+  <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
+    <div class="col-md-6 col-sm-8 col-10">
+      <a href="Regina.png" data-lightbox="Regina" data-title="Card">
+        <img src="Regina.png" alt="Memory" class="img-fluid rounded">
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="birthday-messages" class="container my-5">
+  <h2 class="text-center mt-5 mb-4">Beautiful Birthday Messages</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4" data-aos="fade-up">
+      <div class="message-card">
+        <img src="p1.jpg" alt="Birthday Message 1" class="img-fluid">
+        <p class="message-text">"Happy Birthday! May this year bring you closer to your dreams and fill your heart with joy. Enjoy your special day!"</p>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4" data-aos="fade-up">
+      <div class="message-card">
+        <img src="p2.jpg" alt="Birthday Message 2" class="img-fluid">
+        <p class="message-text">"Wishing you a birthday that's as wonderful as you are! May your day be filled with love, laughter, and unforgettable memories."</p>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4" data-aos="fade-up">
+      <div class="message-card">
+        <img src="p5.jpg" alt="Birthday Message 3" class="img-fluid">
+        <p class="message-text">"Happy Birthday! Today is the perfect day to celebrate you and all the joy you bring into the world. Cheers to another year of you!"</p>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4" data-aos="fade-up">
+      <div class="message-card">
+        <img src="p4.jpg" alt="Birthday Message 4" class="img-fluid">
+        <p class="message-text">"On your special day, I hope you are surrounded by love and happiness. May this year be filled with endless possibilities!"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<h2 class="mb-4 text-white text-center" data-aos="fade-up">Here is a small gift for you.</h2>
+<div id="giftBox" class="gift-box">
+  <div class="ribbon"></div>
+  <div id="giftAmount" class="gift-amount">300gh</div>
+</div>
+
+
+<!-- Message Section -->
+<section class="container mt-5 my-5 text-center">
+  <h2 class="mb-4" data-aos="fade-up">A Flyer to Share</h2>
+  <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="200">
+    <div class="col-md-6 col-sm-8 col-10">
+      <a href="ReginaHBD.jpg" data-lightbox="Regina" data-title="Card">
+        <img src="ReginaHBD.jpg" alt="Memory" class="img-fluid rounded">
+        <a href="ReginaHBD.jpg" download class="btn btn-sm btn-outline-light download-btn mt-3">Download</a>
+      </a>
+    </div>
+  </div>
+</section>
+
+<h2 class="text-center">Birthday Playlist</h2>
+
+<ul class="playlist">
+  <li data-song="songs/Mannywellz-Ouu_wee_(brown).mp3">Mannywellz - Ouu wee (brown)</li>
+  <li data-song="songs/Victony-Everything.mp3">Victony - Everything</li>
+  <li data-song="songs/khalid.mp3">Khalid - Talk</li>
+  <li data-song="songs/CKay-MYSTERIOUS_LOVE.mp3">CKay - MYSTERIOUS LOVE</li>
+  <li data-song="songs/Mannywellz-Ouu_Ahh.mp3">Mannywellz - Ouu Ahh</li>
+  <li data-song="songs/OmahLay-reason.mp3">Omah Lay - reason</li>
+</ul>
+
+<div class="container">
+  <audio id="audioPlayer" controls autoplay>
+    <source src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="controls">
+    <button id="playPauseButton">Pause</button>
+    <button id="muteButton">Mute</button>
+  </div>
+</div>
+  <!-- Footer -->
+  <footer>
+    <p>With love, from <a href="https://kelvinjohnsonsiaw.vercel.app">Kelvin</a></p>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  
+  <!-- Lightbox2 JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+  
+  <!-- Confetti JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init();
+
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('modeToggle');
+    const themeIcon = document.getElementById('modeIcon');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    });
+
+    // Confetti Function
+    function throwConfetti() {
+      const duration = 3 * 1000; // Duration of confetti in milliseconds
+      const animationEnd = Date.now() + duration;
+      const colors = ['#ff0a1f', '#00ff79', '#00aaff', '#ffdd00', '#ff69b4'];
+
+      (function frame() {
+        // Launch confetti until duration has elapsed
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          startVelocity: 25,
+          decay: 0.9,
+          scalar: 1.2,
+          colors: colors,
+          origin: { x: 0, y: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          startVelocity: 25,
+          decay: 0.9,
+          scalar: 1.2,
+          colors: colors,
+          origin: { x: 1, y: 0 }
+        });
+
+        // Stop the animation after the specified duration
+        if (Date.now() < animationEnd) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+
+    // Trigger confetti when the page loads
+    window.onload = throwConfetti;
+
+  
+
+
+let isOpened = false;
+
+document.getElementById('giftBox').addEventListener('click', function () {
+    if (!isOpened) {
+        // Display the gift amount
+        document.getElementById('giftAmount').style.display = 'block';
+
+        // Hide the ribbon
+        document.getElementById('ribbon').classList.add('hidden');
+
+        // Lock the gift box
+        this.classList.add('locked');
+
+        isOpened = true;
+    }
+});
+  </script>
+
+<script>
+ // Get all list items and the audio player element
+ const playlistItems = document.querySelectorAll('.playlist li');
+    const audioPlayer = document.getElementById('audioPlayer');
+    let currentSongIndex = 0; // To keep track of the current song index
+
+    const playPauseButton = document.getElementById('playPauseButton');
+    const muteButton = document.getElementById('muteButton');
+
+    // Load the first song on page load
+    loadSong(currentSongIndex);
+
+    // Play the song at the current index
+    function loadSong(index) {
+        const selectedSong = playlistItems[index].getAttribute('data-song');
+        audioPlayer.src = selectedSong;
+        audioPlayer.play();
+
+        // Highlight the currently playing song
+        playlistItems.forEach((item, idx) => {
+            item.classList.toggle('playing', idx === index);
+        });
+    }
+
+    // Function to play the next song when the current one ends
+    audioPlayer.addEventListener('ended', function () {
+        currentSongIndex++;
+        if (currentSongIndex >= playlistItems.length) {
+            currentSongIndex = 0; // Loop back to the first song
+        }
+        loadSong(currentSongIndex);
+    });
+
+    // Manual selection of songs from the playlist
+    playlistItems.forEach((item, index) => {
+        item.addEventListener('click', function () {
+            currentSongIndex = index; // Update the current song index
+            loadSong(currentSongIndex);
+        });
+    });
+
+    // Play/Pause functionality
+    playPauseButton.addEventListener('click', function () {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            playPauseButton.textContent = 'Pause';
+        } else {
+            audioPlayer.pause();
+            playPauseButton.textContent = 'Play';
+        }
+    });
+
+    // Mute/Unmute functionality
+    muteButton.addEventListener('click', function () {
+        audioPlayer.muted = !audioPlayer.muted;
+        muteButton.textContent = audioPlayer.muted ? 'Unmute' : 'Mute';
+    });
+</script>
+
+</body>
+</html>
+</body>
+</html>
+ 

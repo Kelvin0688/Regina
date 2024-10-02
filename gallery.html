@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery with Dark/Light Mode</title>
+  <!-- Favicon -->
+  <link rel="icon" href="RegLogo.jpg" type="image/x-icon">
+
+  <!-- Google Fonts - Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <!-- Lightbox2 CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      transition: background-color 0.3s, color 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .dark-mode footer {
+      background-color: #333;
+      color: #ffffff;
+    }
+
+    /* Header Style */
+    .hero {
+      position: relative;
+      height: 70vh;
+      background: url('hero-image.jpg') no-repeat center center/cover;
+      color: #ffffff;
+    }
+
+    .hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for text visibility */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .download-btn {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      visibility: hidden;
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover .download-btn {
+      visibility: visible;
+    }
+
+    .btn-outline-light {
+      border-color: #fff;
+      color: #fff;
+      background-color: transparent;
+    }
+
+    .btn-outline-light:hover {
+      background-color: #fff;
+      color: #000;
+    }
+
+    footer {
+      background-color: #004969;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer a {
+      color: white;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .pagination {
+      justify-content: center;
+    }
+
+    .gallery-item {
+      position: relative;
+    }
+
+    /* Grid for six images per row */
+    @media (min-width: 1200px) {
+      .gallery-item {
+        flex: 0 0 16.6666%;
+        max-width: 16.6666%;
+      }
+    }
+    .playlist {
+            max-width: 600px;
+            margin: 20px auto;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .playlist li {
+            background: #3498db;
+            margin: 10px 0;
+            padding: 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .playlist li:hover {
+            background: #2980b9;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .controls button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #2980b9;
+        }
+
+        .playing {
+            background-color: #27ae60 !important;
+        }
+  </style>
+</head>
+<body>
+
+<!-- Dark/Light Mode Toggle Button -->
+<div class="d-flex justify-content-between p-3">
+  <!-- Back to Homepage Button -->
+  <a href="index.html" class="btn btn-outline-primary">
+    <i class="fas fa-home"></i> Back to Home
+  </a>
+
+  <!-- Dark/Light Mode Toggle Button -->
+  <button id="theme-toggle" class="btn btn-outline-primary">
+    <i id="theme-icon" class="fas fa-moon"></i>
+  </button>
+</div>
+
+
+  <!-- Header Section -->
+  <header class="hero" style="background-image: url('img9.jpg'); background-size: cover; background-position: center; height: 70vh;">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 data-aos="fade-up">Welcome to the Photo Gallery</h1>
+      <p data-aos="fade-up" data-aos-delay="200">Relive your beautiful moments, one photo at a time.</p>
+      <a href="#gallery-section" class="btn btn-primary mt-3" data-aos="fade-up" data-aos-delay="400">Explore Gallery</a>
+    </div>
+  </header>
+
+
+  <!-- Gallery Section -->
+  <section id="gallery-section" class="container my-5">
+    <h3 class="text-center mb-4" data-aos="fade-up">Full Photo Gallery</h3>
+    
+    <div class="row gallery gx-2 gy-4">
+      <h2 class="">Church</h2>
+
+      <!-- Gallery Images -->
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (1).jpg" data-lightbox="gallery" data-title="Memory 1">
+          <img src="img/Church/c (1).jpg" alt="Memory 1">
+        </a>
+        <a href="img/Church/c (1).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (2).jpg" data-lightbox="gallery" data-title="Memory 2">
+          <img src="img/Church/c (2).jpg" alt="Memory 2">
+        </a>
+        <a href="img/Church/c (2).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (3).jpg" data-lightbox="gallery" data-title="Memory 3">
+          <img src="img/Church/c (3).jpg" alt="Memory 3">
+        </a>
+        <a href="img/Church/c (3).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (4).jpg" data-lightbox="gallery" data-title="Memory 4">
+          <img src="img/Church/c (4).jpg" alt="Memory 4">
+        </a>
+        <a href="img/Church/c (4).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (5).jpg" data-lightbox="gallery" data-title="Memory 5">
+          <img src="img/Church/c (5).jpg" alt="Memory 5">
+        </a>
+        <a href="img/Church/c (5).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (6).jpg" data-lightbox="gallery" data-title="Memory 6">
+          <img src="img/Church/c (6).jpg" alt="Memory 6">
+        </a>
+        <a href="img/Church/c (6).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+    
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (7).jpg" data-lightbox="gallery" data-title="Memory 1">
+          <img src="img/Church/c (7).jpg" alt="Memory 1">
+        </a>
+        <a href="img/Church/c (7).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (8).jpg" data-lightbox="gallery" data-title="Memory 2">
+          <img src="img/Church/c (8).jpg" alt="Memory 2">
+        </a>
+        <a href="img/Church/c (8).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (10).jpg" data-lightbox="gallery" data-title="Memory 3">
+          <img src="img/Church/c (10).jpg" alt="Memory 3">
+        </a>
+        <a href="img/Church/c (10).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (11).jpg" data-lightbox="gallery" data-title="Memory 4">
+          <img src="img/Church/c (11).jpg" alt="Memory 4">
+        </a>
+        <a href="img/Church/c (11).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (12).jpg" data-lightbox="gallery" data-title="Memory 5">
+          <img src="img/Church/c (12).jpg" alt="Memory 5">
+        </a>
+        <a href="img/Church/c (12).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4 gallery-item" data-aos="fade-up">
+        <a href="img/Church/c (13).jpg" data-lightbox="gallery" data-title="Memory 6">
+          <img src="img/Church/c (13).jpg" alt="Memory 6">
+        </a>
+        <a href="img/Church/c (13).jpg" download class="btn btn-sm btn-outline-light download-btn">Download</a>
+      </div>
+    </div>
+
+
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="home.html">Next Page</a></li>
+      </ul>
+    </nav>
+
+  </section>
+
+  <h2 class="text-center">Birthday Playlist</h2>
+
+<ul class="playlist">
+  <li data-song="songs/Mannywellz-Ouu_wee_(brown).mp3">Mannywellz - Ouu wee (brown)</li>
+  <li data-song="songs/Victony-Everything.mp3">Victony - Everything</li>
+  <li data-song="songs/khalid.mp3">Khalid - Talk</li>
+  <li data-song="songs/CKay-MYSTERIOUS_LOVE.mp3">CKay - MYSTERIOUS LOVE</li>
+  <li data-song="songs/Mannywellz-Ouu_Ahh.mp3">Mannywellz - Ouu Ahh</li>
+  <li data-song="songs/OmahLay-reason.mp3">Omah Lay - reason</li>
+</ul>
+
+<div class="container">
+  <audio id="audioPlayer" controls autoplay>
+    <source src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="controls">
+    <button id="playPauseButton">Pause</button>
+    <button id="muteButton">Mute</button>
+  </div>
+</div>
+
+  <footer>
+    <p>With love, from <a href="https://kelvinjohnsonsiaw.vercel.app">Kelvin</a></p>
+  </footer>
+
+  <!-- AOS and Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  
+  <!-- Lightbox2 JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init();
+  
+    // Dark Mode Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+  
+    // Default Dark Mode
+    document.body.classList.add('dark-mode');
+    themeIcon.classList.remove('fa-moon');
+    themeIcon.classList.add('fa-sun');
+  
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+  
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    });
+  </script>
+
+<script>
+  // Get all list items and the audio player element
+  const playlistItems = document.querySelectorAll('.playlist li');
+  const audioPlayer = document.getElementById('audioPlayer');
+  let currentSongIndex = 0; // To keep track of the current song index
+
+  const playPauseButton = document.getElementById('playPauseButton');
+  const muteButton = document.getElementById('muteButton');
+
+  // Load the first song on page load
+  loadSong(currentSongIndex);
+
+  // Play the song at the current index
+  function loadSong(index) {
+      const selectedSong = playlistItems[index].getAttribute('data-song');
+      audioPlayer.src = selectedSong;
+      audioPlayer.play();
+
+      // Highlight the currently playing song
+      playlistItems.forEach((item, idx) => {
+          item.classList.toggle('playing', idx === index);
+      });
+  }
+
+  // Function to play the next song when the current one ends
+  audioPlayer.addEventListener('ended', function () {
+      currentSongIndex++;
+      if (currentSongIndex >= playlistItems.length) {
+          currentSongIndex = 0; // Loop back to the first song
+      }
+      loadSong(currentSongIndex);
+  });
+
+  // Manual selection of songs from the playlist
+  playlistItems.forEach((item, index) => {
+      item.addEventListener('click', function () {
+          currentSongIndex = index; // Update the current song index
+          loadSong(currentSongIndex);
+      });
+  });
+
+  // Play/Pause functionality
+  playPauseButton.addEventListener('click', function () {
+      if (audioPlayer.paused) {
+          audioPlayer.play();
+          playPauseButton.textContent = 'Pause';
+      } else {
+          audioPlayer.pause();
+          playPauseButton.textContent = 'Play';
+      }
+  });
+
+  // Mute/Unmute functionality
+  muteButton.addEventListener('click', function () {
+      audioPlayer.muted = !audioPlayer.muted;
+      muteButton.textContent = audioPlayer.muted ? 'Unmute' : 'Mute';
+  });
+</script>
+  
+
+</body>
+</html>
